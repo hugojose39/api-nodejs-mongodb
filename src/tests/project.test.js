@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const { start, close } = require('../app');
 const authConfig = require('../config/auth.json');
 const UserModel = require('../models/User');
+const ProjectModel = require('../models/Project');
 
 describe('Project Routes', () => {
   let server;
@@ -23,6 +24,7 @@ describe('Project Routes', () => {
 
   afterAll(async () => {
     await UserModel.deleteMany({});
+    await ProjectModel.deleteMany({});
     await mongoose.connection.close();
 
     await close();
