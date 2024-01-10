@@ -1,16 +1,8 @@
 const express = require('express');
-const router = express.Router();
 
 const UserModel = require('../models/User');
 
-const verifyUser = (req, res) => {
-    if (req.params.id !== req.userLogged.id) {
-        return res.status(403).json({
-            error: true,
-            message: 'Unauthorized'
-        });
-    }
-}
+const router = express.Router();
 
 router.get('/users', async (req, res) => {
     const users = await UserModel.find();
@@ -21,9 +13,14 @@ router.get('/users', async (req, res) => {
 });
 
 router.get('/users/:id', async (req, res) => {
-    verifyUser(req, res);
-
     const user = await UserModel.findById(req.params.id);
+
+    if (req.params.id !== req.userLogged.id) {
+        return res.status(403).json({
+            error: true,
+            message: 'Unauthorized',
+        });
+    }
 
     if (!user) {
         return res.status(404).json({
@@ -34,16 +31,21 @@ router.get('/users/:id', async (req, res) => {
 
     return res.json({
         error: false,
-        user,
+        user: user,
     });
 });
 
 router.put('/users/:id', async (req, res) => {
     const { email } = req.body;
 
-    verifyUser(req, res);
-
     const user = await UserModel.findById(req.params.id);
+
+    if (req.params.id !== req.userLogged.id) {
+        return res.status(403).json({
+            error: true,
+            message: 'Unauthorized',
+        });
+    }
 
     if (!user) {
         return res.status(404).json({
@@ -73,9 +75,14 @@ router.put('/users/:id', async (req, res) => {
 });
 
 router.delete('/users/:id', async (req, res) => {
-    verifyUser(req, res);
-
     const deletedUser = await UserModel.findByIdAndDelete(req.params.id);
+
+    if (req.params.id !== req.userLogged.id) {
+        return res.status(403).json({
+            error: true,
+            message: 'Unauthorized',
+        });
+    }
 
     if (!deletedUser) {
         return res.status(404).json({
