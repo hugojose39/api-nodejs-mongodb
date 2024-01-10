@@ -1,9 +1,9 @@
-const express = require("express");
-const bcryptjs = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const authConfig = require("../config/auth.json");
+const express = require('express');
+const bcryptjs = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const authConfig = require('../config/auth.json');
 
-const UserModel = require("../models/User");
+const UserModel = require('../models/User');
 
 const router = express.Router();
 
@@ -45,7 +45,7 @@ router.post('/autheticate', async (req, res) => {
 
     const { email, password } = req.body;
 
-    const user = await UserModel.findOne({ email }).select("+password");
+    const user = await UserModel.findOne({ email }).select('+password');
 
     if (!user) {
         return res.status(404).json({

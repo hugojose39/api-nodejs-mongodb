@@ -1,5 +1,5 @@
-const jwt = require("jsonwebtoken");
-const authConfig = require("../config/auth.json");
+const jwt = require('jsonwebtoken');
+const authConfig = require('../config/auth.json');
 
 module.exports = (req, res, next) => {
     const authHeader = req.headers.authorization;
@@ -11,7 +11,7 @@ module.exports = (req, res, next) => {
         });
     }
 
-    const parts = authHeader.split(" ");
+    const parts = authHeader.split(' ');
 
     if (parts.length !== 2) {
         return res.status(401).send({
@@ -22,7 +22,7 @@ module.exports = (req, res, next) => {
 
     const [scheme, token] = parts;
 
-    if(scheme.indexOf("Bearer") !== 0) {
+    if(scheme.indexOf('Bearer') !== 0) {
         return res.status(401).send({
             error: true,
             message: 'Token malformatted'

@@ -1,7 +1,7 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
 
-const UserModel = require("../models/User");
+const UserModel = require('../models/User');
 
 const verifyUser = (req, res) => {
     if (req.params.id !== req.userLogged.id) {
@@ -12,11 +12,29 @@ const verifyUser = (req, res) => {
     }
 }
 
-router.get("/users", async (req, res) => {
+router.get('/users', async (req, res) => {
     const users = await UserModel.find();
 
     return res.json({
         users: users,
+    });
+});
+
+router.get('/users/:id', async (req, res) => {
+    verifyUser(req, res);
+
+    const user = await UserModel.findById(req.params.id);
+
+    if (!user) {
+        return res.status(404).json({
+            error: true,
+            message: 'User not found'
+        });
+    }
+
+    return res.json({
+        error: false,
+        user,
     });
 });
 
