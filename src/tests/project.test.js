@@ -32,7 +32,7 @@ describe('Project Routes', () => {
 
   it('should create a project', async () => {
     const response = await request(server)
-      .post('/admin/projects')
+      .post('/api/projects')
       .set('Authorization', `Bearer ${token}`)
       .send({
         'title': 'Primeiro Projeto',
@@ -47,7 +47,7 @@ describe('Project Routes', () => {
 
   it('should get all projects', async () => {
     const response = await request(server)
-      .get('/admin/projects')
+      .get('/api/projects')
       .set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(200);
@@ -56,7 +56,7 @@ describe('Project Routes', () => {
 
   it('should get a project by ID', async () => {
     const project = await request(server)
-      .post('/admin/projects')
+      .post('/api/projects')
       .set('Authorization', `Bearer ${token}`)
       .send({
         'title': 'Primeiro Projeto',
@@ -64,7 +64,7 @@ describe('Project Routes', () => {
       });
 
     const response = await request(server)
-      .get(`/admin/projects/${project.body.project._id}`)
+      .get(`/api/projects/${project.body.project._id}`)
       .set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(200);
@@ -74,7 +74,7 @@ describe('Project Routes', () => {
 
   it('should update a project by ID', async () => {
     const project = await request(server)
-      .post('/admin/projects')
+      .post('/api/projects')
       .set('Authorization', `Bearer ${token}`)
       .send({
         'title': 'Primeiro Projeto',
@@ -82,7 +82,7 @@ describe('Project Routes', () => {
       });
 
     const response = await request(server)
-      .put(`/admin/projects/${project.body.project._id}`)
+      .put(`/api/projects/${project.body.project._id}`)
       .set('Authorization', `Bearer ${token}`)
       .send({
         'title': 'Primeiro Projeto',
@@ -98,7 +98,7 @@ describe('Project Routes', () => {
 
   it('should delete a project by ID', async () => {
     const project = await request(server)
-      .post('/admin/projects')
+      .post('/api/projects')
       .set('Authorization', `Bearer ${token}`)
       .send({
         'title': 'Primeiro Projeto',
@@ -106,7 +106,7 @@ describe('Project Routes', () => {
       });
 
     const response = await request(server)
-      .delete(`/admin/projects/${project.body.project._id}`)
+      .delete(`/api/projects/${project.body.project._id}`)
       .set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(200);

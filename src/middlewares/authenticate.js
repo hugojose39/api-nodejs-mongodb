@@ -7,7 +7,7 @@ module.exports = (req, res, next) => {
     if (!authHeader) {
         return res.status(401).send({
             error: true,
-            message: 'Token no provided'
+            message: 'Token not provided'
         });
     }
 

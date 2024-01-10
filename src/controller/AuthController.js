@@ -19,7 +19,6 @@ const generateToken = (user = {}) => {
 }
 
 router.post('/register', async (req, res) => {
-
     const { email } = req.body;
 
     if (await UserModel.findOne({ email })) {
@@ -33,7 +32,7 @@ router.post('/register', async (req, res) => {
 
     user.password = undefined;
 
-    return res.json({
+    return res.status(201).json({
         error: false,
         message: 'Registered with success!',
         user: user,
@@ -42,7 +41,6 @@ router.post('/register', async (req, res) => {
 });
 
 router.post('/autheticate', async (req, res) => {
-
     const { email, password } = req.body;
 
     const user = await UserModel.findOne({ email }).select('+password');
@@ -64,6 +62,7 @@ router.post('/autheticate', async (req, res) => {
     user.password = undefined;
 
     return res.json({
+        error: false,
         user: user,
         token: generateToken(user),
     });

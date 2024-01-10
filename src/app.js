@@ -1,15 +1,15 @@
 const express = require('express');
 const AuthController = require('../src/controller/AuthController');
-const AdminController = require('../src/controller/AdminController');
+const UserController = require('../src/controller/UserController');
 const ProjectController = require('../src/controller/ProjectController');
-const autheticateMiddleware = require('../src/middlewares/authenticate');
+const authenticateMiddleware = require('../src/middlewares/authenticate');
 
 const app = express();
 
 app.use(express.json());
 
 app.use('/auth', AuthController);
-app.use('/admin', autheticateMiddleware, [AdminController, ProjectController]);
+app.use('/api', authenticateMiddleware, [UserController, ProjectController]);
 
 const server = app.listen(3000, () => {
     console.log('Server is running!');
