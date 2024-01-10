@@ -7,7 +7,7 @@ const router  = express.Router();
 router.post('/projects', async (req, res) => {
     const project = await ProjectModel.create(req.body);
 
-    return res.json({
+    return res.status(201).json({
         error: false,
         message: 'Project created with success!',
         project: project,
@@ -71,7 +71,7 @@ router.delete('/projects/:id', async (req, res) => {
 
     return res.json({
         error: false,
-        message: 'Projetc deleted with success!',
+        message: 'Project deleted with success!',
         project: deletedProject,
     });
 });
