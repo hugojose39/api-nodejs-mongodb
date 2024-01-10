@@ -30,3 +30,4 @@ Este repositório contém uma API desenvolvida em Node.js utilizando o framework
 2. Instale as dependências com `npm install`.
 3. Configure o arquivo `.env` com as variáveis necessárias (USER, PASSWORD, NAME).
 4. Execute o servidor com `npm start`.
+5. Execute os teste com `npm test`.
