@@ -19,7 +19,7 @@ describe('User Routes', () => {
 
         userId = user._id;
 
-        token = jwt.sign({ userId: userId }, authConfig.secret, { expiresIn: 86400 });
+        token = jwt.sign({ id: userId }, authConfig.secret, { expiresIn: 86400 });
 
         server = await start();
     });
@@ -40,39 +40,41 @@ describe('User Routes', () => {
         expect(response.body).toHaveProperty('users');
     });
 
-    // it('should get a user by ID', async () => {
-        // const response = await request(server)
-            // .get(`/api/users/${userId}`)
-            // .set('Authorization', `Bearer ${token}`);
+    it('should get a user by ID', async () => {
+        const response = await request(server)
+            .get(`/api/users/${userId}`)
+            .set('Authorization', `Bearer ${token}`);
 
-        // expect(response.status).toBe(200);
-        // expect(response.body.error).toBe(false);
-        // expect(response.body).toHaveProperty('user');
-    // });
+        expect(response.status).toBe(200);
+        expect(response.body.error).toBe(false);
+        expect(response.body).toHaveProperty('user');
+    });
 
-    // it('should update a user by ID', async () => {
-        // const response = await request(server)
-            // .put(`/api/users/${userId}`)
-            // .set('Authorization', `Bearer ${token}`)
-            // .send({
-                // name: 'Updated User',
-            // });
+    it('should update a user by ID', async () => {
+        const response = await request(server)
+            .put(`/api/users/${userId}`)
+            .set('Authorization', `Bearer ${token}`)
+            .send({
+                "name": "John Doe",
+                "email": "johndoe@gmail.com",
+                "password": "password"
+            });
 
-        // expect(response.status).toBe(200);
-        // expect(response.body.error).toBe(false);
-        // expect(response.body.message).toBe('User updated with success!');
-        // expect(response.body).toHaveProperty('user');
-        // expect(response.body.user.name).toBe('Updated User');
-    // });
+        expect(response.status).toBe(200);
+        expect(response.body.error).toBe(false);
+        expect(response.body.message).toBe('User updated with success!');
+        expect(response.body).toHaveProperty('user');
+        expect(response.body.user.name).toBe('John Doe');
+    });
 
-    // it('should delete a user by ID', async () => {
-        // const response = await request(server)
-            // .delete(`/api/users/${userId}`)
-            // .set('Authorization', `Bearer ${token}`);
+    it('should delete a user by ID', async () => {
+        const response = await request(server)
+            .delete(`/api/users/${userId}`)
+            .set('Authorization', `Bearer ${token}`);
 
-        // expect(response.status).toBe(200);
-        // expect(response.body.error).toBe(false);
-        // expect(response.body.message).toBe('User deleted with success!');
-        // expect(response.body).toHaveProperty('user');
-    // });
+        expect(response.status).toBe(200);
+        expect(response.body.error).toBe(false);
+        expect(response.body.message).toBe('User deleted with success!');
+        expect(response.body).toHaveProperty('user');
+    });
 });
