@@ -57,7 +57,6 @@ describe('User Routes', () => {
             .send({
                 "name": "John Doe",
                 "email": "johndoe@gmail.com",
-                "password": "password"
             });
 
         expect(response.status).toBe(200);
