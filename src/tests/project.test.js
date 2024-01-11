@@ -9,6 +9,7 @@ const ProjectModel = require('../models/Project');
 describe('Project Routes', () => {
   let server;
   let token;
+  let projectId;
 
   beforeAll(async () => {
     const user = await UserModel.create({
@@ -17,7 +18,14 @@ describe('Project Routes', () => {
       password: 'password',
     });
 
-    token = jwt.sign({ userId: user._id }, authConfig.secret, { expiresIn: 86400 });
+    const project = await ProjectModel.create({
+      title: 'Primeiro Projeto',
+      description: 'Este projeto esta projetado'
+    });
+
+    projectId = project._id
+
+    token = jwt.sign({ id: user._id }, authConfig.secret, { expiresIn: 86400 });
 
     server = await start();
   });
@@ -55,16 +63,8 @@ describe('Project Routes', () => {
   });
 
   it('should get a project by ID', async () => {
-    const project = await request(server)
-      .post('/api/projects')
-      .set('Authorization', `Bearer ${token}`)
-      .send({
-        'title': 'Primeiro Projeto',
-        'description': 'Este projeto esta projetado'
-      });
-
     const response = await request(server)
-      .get(`/api/projects/${project.body.project._id}`)
+      .get(`/api/projects/${projectId}`)
       .set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(200);
@@ -73,16 +73,8 @@ describe('Project Routes', () => {
   });
 
   it('should update a project by ID', async () => {
-    const project = await request(server)
-      .post('/api/projects')
-      .set('Authorization', `Bearer ${token}`)
-      .send({
-        'title': 'Primeiro Projeto',
-        'description': 'Este projeto esta projetado'
-      });
-
     const response = await request(server)
-      .put(`/api/projects/${project.body.project._id}`)
+      .put(`/api/projects/${projectId}`)
       .set('Authorization', `Bearer ${token}`)
       .send({
         'title': 'Primeiro Projeto',
@@ -97,16 +89,8 @@ describe('Project Routes', () => {
   });
 
   it('should delete a project by ID', async () => {
-    const project = await request(server)
-      .post('/api/projects')
-      .set('Authorization', `Bearer ${token}`)
-      .send({
-        'title': 'Primeiro Projeto',
-        'description': 'Este projeto esta projetado'
-      });
-
     const response = await request(server)
-      .delete(`/api/projects/${project.body.project._id}`)
+      .delete(`/api/projects/${projectId}`)
       .set('Authorization', `Bearer ${token}`);
 
     expect(response.status).toBe(200);
